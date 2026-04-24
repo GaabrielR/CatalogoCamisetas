@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from config import Config
 from models import db, Camiseta
 import os
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename, generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -18,6 +18,13 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 @app.route("/")
 def index():
+    user = current_user()
+
+    if not user:
+        return redirect(url_for("login"))
+
+    query = Camiseta.query.filter_by(user_id=user.id)
+
     busca = request.args.get("busca", "")
     time = request.args.get("time", "")
     marca = request.args.get("marca", "")
@@ -50,6 +57,8 @@ def create():
             nome_arquivo = secure_filename(imagem.filename)
             caminho = os.path.join(app.config["UPLOAD_FOLDER"], nome_arquivo)
             imagem.save(caminho)
+
+        user = current_user()
 
         camiseta = Camiseta(
             time=request.form["time"],
@@ -110,6 +119,51 @@ def delete(id):
     db.session.commit()
 
     flash("Camiseta removida com sucesso!", "danger")
+    return redirect(url_for("index"))
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = generate_password_hash(request.form["password"])
+
+        user = User(username=username, password=password)
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for("login"))
+
+    return render_template("register.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        user = User.query.filter_by(username=request.form["username"]).first()
+
+        if user and check_password_hash(user.password, request.form["password"]):
+            session["user_id"] = user.id
+            return redirect(url_for("index"))
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("user_id", None)
+    return redirect(url_for("login"))
+
+def current_user():
+    if "user_id" in session:
+        return User.query.get(session["user_id"])
+    return None
+
+@app.route("/favoritar/<int:id>")
+def favoritar(id):
+    user = current_user()
+
+    fav = Favorito(user_id=user.id, camiseta_id=id)
+    db.session.add(fav)
+    db.session.commit()
+
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
