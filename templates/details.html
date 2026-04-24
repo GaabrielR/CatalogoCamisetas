@@ -1,20 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card shadow">
-    {% if camiseta.imagem %}
-    <img src="{{ url_for('static', filename='uploads/' + camiseta.imagem) }}" class="card-img-top">
-    {% endif %}
-    <div class="card-body">
-        <h2>{{ camiseta.time }}</h2>
-        <p><strong>País:</strong> {{ camiseta.pais }}</p>
-        <p><strong>Marca:</strong> {{ camiseta.marca }}</p>
-        <p><strong>Ano:</strong> {{ camiseta.temporada }}</p>
-        <p><strong>Jogador:</strong> {{ camiseta.jogador }}</p>
-        <p><strong>Número:</strong> {{ camiseta.numero }}</p>
 
-        <a href="/edit/{{ camiseta.id }}" class="btn btn-warning">Editar</a>
-        <a href="/delete/{{ camiseta.id }}" class="btn btn-danger">Excluir</a>
+<div class="row">
+
+    <div class="col-md-5">
+        {% if camiseta.imagem %}
+        <img class="img-fluid rounded" 
+             src="{{ url_for('static', filename='uploads/' + camiseta.imagem) }}">
+        {% endif %}
     </div>
+
+    <div class="col-md-7">
+        <h1>{{ camiseta.time }}</h1>
+        <p class="text-muted">{{ camiseta.temporada }} - {{ camiseta.tipo }}</p>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-dark text-white">País: {{ camiseta.pais }}</li>
+            <li class="list-group-item bg-dark text-white">Marca: {{ camiseta.marca }}</li>
+            <li class="list-group-item bg-dark text-white">Jogador: {{ camiseta.jogador }}</li>
+            <li class="list-group-item bg-dark text-white">Número: {{ camiseta.numero }}</li>
+            <li class="list-group-item bg-dark text-white">Condição: {{ camiseta.condicao }}</li>
+        </ul>
+
+        <a href="/edit/{{ camiseta.id }}" class="btn btn-warning mt-3">Editar</a>
+        <a href="/delete/{{ camiseta.id }}" onclick="return confirmarDelete()" class="btn btn-danger">
+            Excluir
+        </a>
+    </div>
+
 </div>
+
 {% endblock %}
