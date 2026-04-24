@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Editar Camiseta</h2>
+
+<form method="POST">
+    <input class="form-control mb-2" name="time" value="{{ camiseta.time }}" required>
+    <input class="form-control mb-2" name="pais" value="{{ camiseta.pais }}" required>
+    <input class="form-control mb-2" name="modalidade" value="{{ camiseta.modalidade }}" required>
+    <input class="form-control mb-2" name="temporada" value="{{ camiseta.temporada }}" required>
+    <input class="form-control mb-2" name="tipo" value="{{ camiseta.tipo }}" required>
+    <input class="form-control mb-2" name="marca" value="{{ camiseta.marca }}" required>
+    <input class="form-control mb-2" name="tamanho" value="{{ camiseta.tamanho }}" required>
+    <input class="form-control mb-2" name="jogador" value="{{ camiseta.jogador }}">
+    <input class="form-control mb-2" name="numero" value="{{ camiseta.numero }}">
+    <input class="form-control mb-2" name="condicao" value="{{ camiseta.condicao }}">
+    <textarea class="form-control mb-2" name="observacoes">{{ camiseta.observacoes }}</textarea>
+
+    <button class="btn btn-primary">Salvar</button>
+</form>
+{% endblock %}

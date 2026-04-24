@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow">
+    {% if camiseta.imagem %}
+    <img src="{{ url_for('static', filename='uploads/' + camiseta.imagem) }}" class="card-img-top">
+    {% endif %}
+    <div class="card-body">
+        <h2>{{ camiseta.time }}</h2>
+        <p><strong>País:</strong> {{ camiseta.pais }}</p>
+        <p><strong>Marca:</strong> {{ camiseta.marca }}</p>
+        <p><strong>Ano:</strong> {{ camiseta.temporada }}</p>
+        <p><strong>Jogador:</strong> {{ camiseta.jogador }}</p>
+        <p><strong>Número:</strong> {{ camiseta.numero }}</p>
+
+        <a href="/edit/{{ camiseta.id }}" class="btn btn-warning">Editar</a>
+        <a href="/delete/{{ camiseta.id }}" class="btn btn-danger">Excluir</a>
+    </div>
+</div>
+{% endblock %}

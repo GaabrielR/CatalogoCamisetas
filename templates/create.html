@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <input class="form-control" name="time" placeholder="Time" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <input class="form-control" name="pais" placeholder="País" required>
+        </div>
+    </div>
+
+    <input class="form-control mb-3" name="modalidade" placeholder="Modalidade" required>
+    <input class="form-control mb-3" name="temporada" placeholder="Ano" required>
+    <input class="form-control mb-3" name="tipo" placeholder="Tipo" required>
+    <input class="form-control mb-3" name="marca" placeholder="Marca" required>
+    <input class="form-control mb-3" name="tamanho" placeholder="Tamanho" required>
+    <input class="form-control mb-3" name="jogador" placeholder="Jogador">
+    <input class="form-control mb-3" name="numero" placeholder="Número">
+    <input class="form-control mb-3" name="condicao" placeholder="Condição" required>
+    <textarea class="form-control mb-3" name="observacoes" placeholder="Observações"></textarea>
+    <input class="form-control mb-3" type="file" name="imagem">
+
+    <button class="btn btn-success">Salvar</button>
+</form>
+{% endblock %}

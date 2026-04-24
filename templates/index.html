@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="GET" class="mb-4">
+    <input class="form-control" type="text" name="busca" placeholder="Buscar time ou jogador">
+</form>
+
+<div class="row">
+    {% for camiseta in camisetas %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            {% if camiseta.imagem %}
+            <img src="{{ url_for('static', filename='uploads/' + camiseta.imagem) }}" class="card-img-top">
+            {% endif %}
+            <div class="card-body">
+                <h5>{{ camiseta.time }}</h5>
+                <p>{{ camiseta.temporada }} - {{ camiseta.tipo }}</p>
+                <a href="/details/{{ camiseta.id }}" class="btn btn-primary">Detalhes</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
