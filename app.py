@@ -84,6 +84,26 @@ def edit(id):
     if camiseta.user_id != current_user.id:
         return redirect(url_for("index"))
 
+    if request.method == "POST":
+        camiseta.time = request.form["time"]
+        camiseta.pais = request.form["pais"]
+        camiseta.modalidade = request.form["modalidade"]
+        camiseta.temporada = request.form["temporada"]
+        camiseta.tipo = request.form["tipo"]
+        camiseta.marca = request.form["marca"]
+        camiseta.tamanho = request.form["tamanho"]
+        camiseta.jogador = request.form.get("jogador")
+        camiseta.numero = request.form.get("numero")
+        camiseta.condicao = request.form["condicao"]
+        camiseta.observacoes = request.form.get("observacoes")
+
+        db.session.commit()
+
+        flash("Camiseta atualizada com sucesso!", "success")
+        return redirect(url_for("index"))
+
+    return render_template("edit.html", camiseta=camiseta)
+
 @app.route("/delete/<int:id>")
 @login_required
 def delete(id):
